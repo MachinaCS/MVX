@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2016",
+    "lib": ["DOM", "Decorators"],
+    "module": "CommonJS",
+    "rootDir": "./source",
+    "declaration": true,
+    "outDir": "./dist",
+    "declarationDir": "./dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+  }
+}
