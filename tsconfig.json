@@ -2,7 +2,9 @@
   "compilerOptions": {
     "target": "ES2016",
     "lib": ["DOM", "Decorators"],
-    "module": "CommonJS",
+    "types": ["node"],
+    "typeRoots": ["./node_modules/@types"],
+    "module": "ESNext",
     "rootDir": "./source",
     "declaration": true,
     "outDir": "./dist",

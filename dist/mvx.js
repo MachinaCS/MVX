@@ -1,63 +1,8 @@
-"use strict";
-/**
- * Reaguje na scroll danego elementu zgodnie z kierunkiem, osią i triggerem.
- * Wywołuje callback z informacją, czy scroll był w dół i czy trigger został przekroczony.
- */
-function scrolled(input) {
-    const objects = Array.isArray(input) ? input : [input];
-    const getScrollValue = (el, axis) => el instanceof Window
-        ? axis === "y" ? el.scrollY : el.scrollX
-        : axis === "y" ? el.scrollTop : el.scrollLeft;
-    const getScrollSize = (el, axis) => el instanceof Window
-        ? axis === "y"
-            ? document.documentElement.scrollHeight
-            : document.documentElement.scrollWidth
-        : axis === "y"
-            ? el.scrollHeight
-            : el.scrollWidth;
-    for (const obj of objects) {
-        const { element, axis, direction, trigger = 0, debounce = 0, once = false, callback, } = obj;
-        if (!element || !axis || !direction || trigger == null)
-            continue;
-        let lastScroll = getScrollValue(element, axis);
-        let timeout;
-        let wasTriggered = false;
-        const runCheck = () => {
-            const currentScroll = getScrollValue(element, axis);
-            const isDown = currentScroll > lastScroll;
-            const scrollSize = getScrollSize(element, axis);
-            const targetTrigger = trigger <= 1 ? scrollSize * trigger : trigger;
-            const isTriggered = (direction === "up" || direction === "left")
-                ? currentScroll <= targetTrigger
-                : currentScroll >= targetTrigger;
-            if (callback && (isTriggered !== wasTriggered || !obj._activated)) {
-                callback({
-                    isDown,
-                    isTriggered,
-                    axis,
-                    direction,
-                    currentScroll,
-                    self: element,
-                });
-                if (once && isTriggered) {
-                    obj._activated = true;
-                    element.removeEventListener("scroll", handler);
-                }
-            }
-            wasTriggered = isTriggered;
-            lastScroll = currentScroll;
-        };
-        const handler = () => {
-            if (debounce > 0) {
-                clearTimeout(timeout);
-                timeout = window.setTimeout(runCheck, debounce);
-            }
-            else {
-                runCheck();
-            }
-        };
-        // Uruchom natychmiast na starcie
-        runCheck();
-        element.addEventListener("scroll", handler);
-    }
-}
+(function (factory) {
+  typeof define === 'function' && define.amd ? define(factory) :
+  factory();
+})((function () { 'use strict';
+
+  function _0x44f2(_0x172f00,_0x2243c7){const _0x5857ea=_0x5857();return _0x44f2=function(_0x44f2d9,_0x1cc808){_0x44f2d9=_0x44f2d9-0x15f;let _0xd1e4b4=_0x5857ea[_0x44f2d9];return _0xd1e4b4;},_0x44f2(_0x172f00,_0x2243c7);}function _0x5857(){const _0x142e06=['37329876QsghIH','scrollLeft','105296EUjblz','scrollWidth','amd','7469244OPBUqo','exports','documentElement','259bvPyhz','removeEventListener','scrollTop','function','655002jWRRUF','scrollX','setTimeout','8WOzqtc','3305546ZAHgLr','_activated','1035330QOCCcV','7828500bIMBiu','scroll','left','addEventListener','scrollHeight','undefined'];_0x5857=function(){return _0x142e06;};return _0x5857();}const _0x20a350=_0x44f2;(function(_0x243c73,_0x30363c){const _0x2fc358=_0x44f2,_0x34b3b5=_0x243c73();while(!![]){try{const _0x4f502e=-parseInt(_0x2fc358(0x174))/0x1+-parseInt(_0x2fc358(0x172))/0x2+parseInt(_0x2fc358(0x16e))/0x3*(-parseInt(_0x2fc358(0x171))/0x4)+parseInt(_0x2fc358(0x175))/0x5+-parseInt(_0x2fc358(0x167))/0x6+-parseInt(_0x2fc358(0x16a))/0x7*(parseInt(_0x2fc358(0x164))/0x8)+parseInt(_0x2fc358(0x162))/0x9;if(_0x4f502e===_0x30363c)break;else _0x34b3b5['push'](_0x34b3b5['shift']());}catch(_0x5e0290){_0x34b3b5['push'](_0x34b3b5['shift']());}}}(_0x5857,0xd12f9));(function(_0x5ed55b,_0x1a5ca3){const _0x317154=_0x44f2;if(typeof define===_0x317154(0x16d)&&define[_0x317154(0x166)])define([],_0x1a5ca3);else typeof module==='object'&&typeof module[_0x317154(0x168)]==='object'?module[_0x317154(0x168)]=_0x1a5ca3():_0x5ed55b['MVX']=_0x1a5ca3();}(typeof self!==_0x20a350(0x161)?self:undefined,function(){function _0x7c622(_0x3319e3){const _0x1f1c8d=_0x44f2,_0x5865d1=Array['isArray'](_0x3319e3)?_0x3319e3:[_0x3319e3],_0x4e9b4c=(_0x538278,_0x113dd2)=>{const _0x555b49=_0x44f2;return _0x538278 instanceof Window?_0x113dd2==='y'?_0x538278['scrollY']:_0x538278[_0x555b49(0x16f)]:_0x113dd2==='y'?_0x538278[_0x555b49(0x16c)]:_0x538278[_0x555b49(0x163)];},_0x3df95c=(_0x55b71a,_0x8a956c)=>{const _0x52c6d8=_0x44f2;return _0x55b71a instanceof Window?_0x8a956c==='y'?document['documentElement'][_0x52c6d8(0x160)]:document[_0x52c6d8(0x169)][_0x52c6d8(0x165)]:_0x8a956c==='y'?_0x55b71a[_0x52c6d8(0x160)]:_0x55b71a['scrollWidth'];};for(const _0x2cf51c of _0x5865d1){const {element:_0x311126,axis:_0x1d2718,direction:_0x44fbae,trigger:trigger=0x0,debounce:debounce=0x0,once:once=![],callback:_0x3c0e1c}=_0x2cf51c;if(!_0x311126||!_0x1d2718||!_0x44fbae||trigger==null)continue;let _0x3c3f9a=_0x4e9b4c(_0x311126,_0x1d2718),_0x290df3,_0x151fb7=![];const _0x257c66=()=>{const _0x73d4f=_0x44f2,_0x3f599c=_0x4e9b4c(_0x311126,_0x1d2718),_0x12937e=_0x3f599c>_0x3c3f9a,_0x134bd6=_0x3df95c(_0x311126,_0x1d2718),_0x178a59=trigger<=0x1?_0x134bd6*trigger:trigger,_0x438043=_0x44fbae==='up'||_0x44fbae===_0x73d4f(0x177)?_0x3f599c<=_0x178a59:_0x3f599c>=_0x178a59;_0x3c0e1c&&(_0x438043!==_0x151fb7||!_0x2cf51c[_0x73d4f(0x173)])&&(_0x3c0e1c({'isDown':_0x12937e,'isTriggered':_0x438043,'axis':_0x1d2718,'direction':_0x44fbae,'currentScroll':_0x3f599c,'self':_0x311126}),once&&_0x438043&&(_0x2cf51c[_0x73d4f(0x173)]=!![],_0x311126[_0x73d4f(0x16b)](_0x73d4f(0x176),_0x533c1c))),_0x151fb7=_0x438043,_0x3c3f9a=_0x3f599c;},_0x533c1c=()=>{const _0x760d24=_0x44f2;debounce>0x0?(clearTimeout(_0x290df3),_0x290df3=window[_0x760d24(0x170)](_0x257c66,debounce)):_0x257c66();};_0x257c66(),_0x311126[_0x1f1c8d(0x15f)](_0x1f1c8d(0x176),_0x533c1c);}}return {'scrolled':_0x7c622};}));
+
+}));

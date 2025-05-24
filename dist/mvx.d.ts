@@ -1,3 +1,11 @@
+interface ScrolledCallbackEvent {
+    isDown: boolean;
+    isTriggered: boolean;
+    axis: "x" | "y";
+    direction: "up" | "down" | "left" | "right";
+    currentScroll: number;
+    self: HTMLElement | Window;
+}
 interface ScrolledObject {
     axis: "x" | "y";
     direction: "up" | "down" | "left" | "right";
@@ -5,20 +13,10 @@ interface ScrolledObject {
     trigger?: number;
     debounce?: number;
     once?: boolean;
-    callback?: (event: ScrolledCallbackEvent & {
-        self: HTMLElement | Window;
-    }) => void;
+    callback?: (event: ScrolledCallbackEvent) => void;
     _activated?: boolean;
 }
-interface ScrolledCallbackEvent {
-    isDown: boolean;
-    isTriggered: boolean;
-    axis: "x" | "y";
-    direction: "up" | "down" | "left" | "right";
-    currentScroll: number;
-}
-/**
- * Reaguje na scroll danego elementu zgodnie z kierunkiem, osią i triggerem.
- * Wywołuje callback z informacją, czy scroll był w dół i czy trigger został przekroczony.
- */
-declare function scrolled(input: ScrolledObject | ScrolledObject[]): void;
+declare var define: {
+    (deps: string[], factory: (...args: any[]) => any): void;
+    amd: any;
+};
