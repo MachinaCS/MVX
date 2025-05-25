@@ -1,16 +1,17 @@
 {
   "name": "mvx",
   "author": "Bartłomiej 'Machina' Walczak <contact@mhna.pl>",
-  "main": "./dist/mvx.js",
-  "types": "./dist/mvx.d.ts",
+  "main": "./lib/mvx.js",
+  "types": "./lib/mvx.d.ts",
   "dependencies": {
     "@types/node": "^22.15.21"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx rollup -c"
+    "build": "npx rollup -c",
+    "debug": "npx rollup -c -w"
   },
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A modern HTML and Javascript Framework.",
   "devDependencies": {
     "rollup": "^4.41.1",

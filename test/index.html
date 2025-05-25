@@ -8,47 +8,30 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="./style.css">
+
     <script src="../dist/mvx.js"></script>
-
-    <style>
-        html { overflow: hidden auto; }
-        body {
-            margin: unset;
-            min-height: 100dvh;
-        }
-
-        #box1, #box2, #box3 {
-            width: 100%;
-            height: 100px;
-            display: block;
-            transition: 200ms ease top;
-        }
-
-        #box1 {
-            z-index: 3;
-            position: fixed;
-            background-color: #ff0050;
-        }
-
-        #box2 {
-            z-index: 3;
-            position: fixed;
-            background-color: #50ff50;
-        }
-
-        #box3 {
-            z-index: 2;
-            position: relative;
-            background-color: #5000ff;
-        }
-    </style>
 </head>
 <body>
-    <div id="box1"></div>
-    <div id="box2"></div>
-    <div style="height: 300px;"></div>
-    <div id="box3"></div>
-    <div style="height: 3000px;"></div>
+    <header id="header">
+        <p>Header</p>
+    </header>
+    <nav id="breadcrumb">
+        <p>Breadcrumb</p>
+    </nav>
+    <div id="separator">
+        <p>Separator</p>
+    </div>
+    <nav id="menu">
+        <p>Menu</p>
+    </nav>
+    <main id="content">
+        <p>Content</p>
+    </main>
+    <footer id="footer">
+        <p>Footer</p>
+    </footer>
+
     <script src="./script.js"></script>
 </body>
 </html>

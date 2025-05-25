@@ -2,7 +2,7 @@ import typescript from 'rollup-plugin-typescript2';
 import obfuscator from 'rollup-plugin-obfuscator';
 
 export default {
-  input: './source/mvx.ts',
+  input: './lib/mvx.ts',
   output: {
     file: './dist/mvx.js',
     format: 'umd',
@@ -15,11 +15,15 @@ export default {
       useTsconfigDeclarationDir: true
     }),
     obfuscator({
+      seed: 312,
       compact: true,
-      controlFlowFlattening: true,
+      simplify: true,
+      renameProperties: true,
       deadCodeInjection: true,
-      stringArray: true,
-      stringArrayThreshold: 0.75
+      renamePropertiesMode: "safe",
+      controlFlowFlattening: true,
+      identifierNamesGenerator: "mangled-shuffled",
+      deadCodeInjectionThreshold: 0.4,
     })
   ]
 };

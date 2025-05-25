@@ -5,7 +5,7 @@
     "types": ["node"],
     "typeRoots": ["./node_modules/@types"],
     "module": "ESNext",
-    "rootDir": "./source",
+    "rootDir": "./lib",
     "declaration": true,
     "outDir": "./dist",
     "declarationDir": "./dist",

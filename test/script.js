@@ -1,27 +1,27 @@
-const box1 = document.querySelector("div#box1");
-const box2 = document.querySelector("div#box2");
-const box3 = document.querySelector("div#box3");
+const header = document.querySelector("header#header");
+const breadcrumb = document.querySelector("nav#breadcrumb");
+const menu = document.querySelector("nav#menu");
 
 MVX.scrolled([
     {
         element: window,
         axis: "y",
-        direction: "down",
-        trigger: 0,
+        trigger: 0.2,
         callback: event => {
-            box1.style.top = event.isDown ? `-${box1.clientHeight}px` : "0px";
-            box2.style.top = event.isDown ? "0px" : `${box1.clientHeight}px`;
-        },
+            header.style.top = event.isDown ? `-${header.clientHeight + 1}px` : "0px";
+            breadcrumb.style.top = event.isDown ? "0px" : `${header.clientHeight + 1}px`;
+        }
     },
     {
         element: window,
         axis: "y",
-        direction: "down",
-        trigger: 500,
+        trigger: menu,
         callback: event => {
             event.isTriggered 
-            ? (box3.style.top = event.isDown ? `${box1.clientHeight}px` : `${box1.clientHeight + box2.clientHeight}px`, box3.style.position = 'fixed') 
-            : (box3.style.position = 'unset', box3.style.top = "0px");  
-        },
+                ? event.isDown 
+                    ? menu.style = `position: fixed; top: ${breadcrumb.clientHeight + 2}px;` 
+                    : menu.style = `position: fixed; top: ${header.clientHeight + breadcrumb.clientHeight + 2}px;`
+                : menu.style = `position: relative; top: unset;`;
+        }
     }
 ]);
