@@ -2,7 +2,7 @@ const header = document.querySelector("header#header");
 const breadcrumb = document.querySelector("nav#breadcrumb");
 const menu = document.querySelector("nav#menu");
 
-MVX.scrolled([
+MVXI.scrolled([
     {
         element: window,
         axis: "y",

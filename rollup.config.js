@@ -2,11 +2,11 @@ import typescript from 'rollup-plugin-typescript2';
 import obfuscator from 'rollup-plugin-obfuscator';
 
 export default {
-  input: './lib/mvx.ts',
+  input: './lib/mvxi.ts',
   output: {
-    file: './dist/mvx.js',
+    file: './dist/mvxi.js',
     format: 'umd',
-    name: 'MVX',
+    name: 'MVXI',
     sourcemap: false
   },
   plugins: [

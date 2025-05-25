@@ -1,8 +1,8 @@
 {
-  "name": "mvx",
+  "name": "mvxi",
   "author": "Bartłomiej 'Machina' Walczak <contact@mhna.pl>",
-  "main": "./lib/mvx.js",
-  "types": "./lib/mvx.d.ts",
+  "main": "./lib/mvxi.js",
+  "types": "./lib/mvxi.d.ts",
   "dependencies": {
     "@types/node": "^22.15.21"
   },
@@ -11,7 +11,7 @@
     "build": "npx rollup -c",
     "debug": "npx rollup -c -w"
   },
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A modern HTML and Javascript Framework.",
   "devDependencies": {
     "rollup": "^4.41.1",
@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MachinaCS/MVX.git"
+    "url": "git+https://github.com/MachinaCS/MVXI.git"
   },
   "keywords": [
     "Framework",
@@ -30,11 +30,11 @@
     "JS",
     "TS",
     "HTML",
-    "MVX"
+    "MVXI"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/MachinaCS/MVX/issues"
+    "url": "https://github.com/MachinaCS/MVXI/issues"
   },
-  "homepage": "https://github.com/MachinaCS/MVX#readme"
+  "homepage": "https://github.com/MachinaCS/MVXI#readme"
 }
