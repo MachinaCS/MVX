@@ -1,79 +1,155 @@
-/** Obiekt konfiguracyjny dla obserwatora scrolla. */
+/**
+ * Configuration interface for the `scrolled` function.
+ * 
+ * Defines how scroll-based triggers should be handled, including axis, direction, 
+ * trigger point, debounce timing, and callback behavior.
+ */
 interface ScrolledObject {
-    /** Obserwowany element – `window` lub element z overflow scroll. */
+    /**
+     * The element being observed for scroll events.
+     * 
+     * Can be the global `window` object or a specific scrollable `HTMLElement`.
+     */
     element: HTMLElement | Window;
 
-    /** Kierunek osi scrolla – "x" dla poziomego, "y" dla pionowego. */
+    /**
+     * The axis on which to detect scroll activity.
+     * 
+     * - `"x"` for horizontal scrolling.
+     * - `"y"` for vertical scrolling.
+     */
     axis: "x" | "y";
 
-    /** Kierunek, w którym ma być sprawdzane spełnienie triggera. */
+    /**
+     * (Optional) The intended scroll direction that activates the trigger.
+     * 
+     * - `"up"` or `"down"` for vertical scrolling.
+     * - `"left"` or `"right"` for horizontal scrolling.
+     * 
+     * If omitted, the trigger will activate regardless of scroll direction.
+     */
     direction?: "up" | "down" | "left" | "right";
 
-    /** Punkt aktywacji scrolla – jako liczba (np. 300) lub obiekt triggera. */
+    /**
+     * The point at which the scroll should trigger the callback.
+     * 
+     * Can be:
+     * - A `number` representing a fixed offset in pixels.
+     * - An `HTMLElement`, where its position on the page will determine the trigger point.
+     */
     trigger: number | HTMLElement;
 
-    /** Funkcja wywoływana po spełnieniu warunku scrolla. */
+    /**
+     * (Optional) A function to be called when the trigger condition is met.
+     * 
+     * Receives a `ScrolledCallbackEvent` containing scroll state details.
+     */
     callback?: (event: ScrolledCallbackEvent) => void;
 
-    /** Czy callback powinien zostać wykonany tylko raz. */
+    /**
+     * (Optional) If set to `true`, the callback will be executed only once per session.
+     * 
+     * Useful for animations or one-time events on scroll.
+     */
     once?: boolean;
 
-    /** Czas debounce w ms, by opóźnić reakcję na scroll. */
+    /**
+     * (Optional) Time in milliseconds to debounce the scroll event handler.
+     * 
+     * Helps reduce callback frequency for performance optimization.
+     */
     debounce?: number;
 
-    /** Flaga prywatna – informuje, że callback został już wykonany. */
+    /**
+     * (Internal) Indicates whether the callback has already been executed.
+     * 
+     * Used internally when `once` is `true`.
+     */
     _activated?: boolean;
 }
 
-/** TODO: Make Documentation
+/** 
+ * Callback event interface used by the `scrolled` function.
+ * 
+ * Provides detailed information about the current scroll state and trigger conditions.
  */
 interface ScrolledCallbackEvent {
-    /** TODO: Make Documentation
+    /**
+     * Indicates whether the user is currently scrolling down.
+     * 
+     * `true` if the scroll direction is downward compared to the last recorded position;
+     * `false` if scrolling upward or stationary.
      */
     isDown: boolean;
 
-    /** TODO: Make Documentation
+    /**
+     * Indicates whether the scroll position has reached or passed the specified trigger point.
+     * 
+     * `true` if the trigger condition has been met;
+     * `false` otherwise.
      */
     isTriggered: boolean;
 
-    /** TODO: Make Documentation
+    /**
+     * The current scroll position on the relevant axis.
+     * 
+     * Typically represents `scrollTop` (for vertical scrolling) or `scrollLeft` (for horizontal),
+     * depending on the configuration of the `scrolled` function.
      */
     current: number;
 
-    /** TODO: Make Documentation
+    /**
+     * The source element or window object that is being observed for scroll events.
+     * 
+     * This is either a specific scrollable container (`HTMLElement`) or the global `window`.
      */
     self: HTMLElement | Window;
 };
 
-/** TODO: Make Documentation
+/**
+ * Observes scroll events on one or multiple elements and triggers a callback when a specified scroll position is reached.
+ * 
+ * This function is useful for scroll-based interactions such as animations, lazy loading,
+ * or triggering UI changes when certain sections enter the viewport or reach a given threshold.
+ *
+ * @param input - A single `ScrolledObject` configuration or an array of such configurations.
+ * 
+ * ### Features:
+ * - Supports vertical (`y`) and horizontal (`x`) scrolling.
+ * - Detects scroll direction (`up`, `down`, `left`, `right`).
+ * - Trigger point can be a static number or a DOM element.
+ * - Optional debounce to optimize performance.
+ * - Option to trigger callback only once.
+ * 
+ * ### Example:
+ * ```ts
+ * scrolled({
+ *   element: window,
+ *   axis: "y",
+ *   trigger: 300,
+ *   callback: ({ isDown, isTriggered }) => {
+ *     if (isTriggered) console.log("You scrolled past 300px!", isDown);
+ *   },
+ *   once: true,
+ *   debounce: 50
+ * });
+ * ```
  */
 function scrolled(input: ScrolledObject | ScrolledObject[]): void {
-    // Weryfikujemy czy `input` jest Listą `Array` czy też zwykłym Obiektem `Object`.
-    // jeśli nie to zmieniamy to w forme listy `[input]`;
     const objects = Array.isArray(input) ? input : [input];
-
-    // FUNKCJE POMOCNICZE
     
     const getScrollValue = (element: HTMLElement | Window, axis: "x" | "y"): number => {
-        // Co to jest w ogóle? już tłumaczę :>
-        // sprawdzamy czy podany `element` jest Window (jest instancją `Window`) 
-        // jeśli tak to bieżemy odpowiedni scroll odpowiadający osi `axis` z `element: Window` jeśli nie to z `element: HTMLElement`.
-        // Wiem pogmatwane, ale działa i jest pocześci czytelne tylko wymaga skupienia :}
         return element instanceof Window 
             ? axis === "y" ? element.scrollY : element.scrollX 
             : axis === "y" ? element.scrollTop : element.scrollLeft;
     };
 
     const getScrollSize = (element: HTMLElement | Window, axis: "x" | "y"): number => {
-        // Tu podobnie jak w `getScrollValue`, lecz różnica pomiedzy `getScrollValue`, a `getScrollSize` jest taka, 
-        // że samo `Window` ma wielkość okna przeglądarki co powoduje nie rzetelny odczyt wielkości dokumentu, 
-        // dlatego używamy wielkość arkusza `<html>`
         return element instanceof Window 
             ? axis === "y" ? document.documentElement.scrollHeight : document.documentElement.scrollWidth 
             : axis === "y" ? element.scrollHeight : element.scrollWidth;
     };
 
-    // Liczy każdy element w drzewie DOM i zwraca pozycje absolutną naszego elementu `offset`
     const getAbsoluteOffset = (element: HTMLElement, axis: "x" | "y"): number => {
         let offset = 0;
         let current: HTMLElement | null = element;
@@ -87,10 +163,6 @@ function scrolled(input: ScrolledObject | ScrolledObject[]): void {
     };
 
     for(const object of objects) {
-        // Dlaczego `callback` jest opcjonalny, a reszta nie? callback nie musi być, 
-        // ale funkcja się nie wykona jeśli nie ma co wykonywać. W taki sposób optymalizujemy nie potrzebny użytek.
-        // Reszta za to jest potrzebna by nadać kierunek callbackowi kiedy co ma wykonać.
-
         if(!object.axis || !object.element || object.trigger == null || !object.callback) continue;
 
         object.direction = object.direction ? object.direction : "down";
@@ -103,13 +175,11 @@ function scrolled(input: ScrolledObject | ScrolledObject[]): void {
             continue;
         }
 
-        // Przyda się to w późniejszym etapie :>
         let lastScroll = getScrollValue(object.element, object.axis);
         let debounceTimeout: number | undefined;
         let wasTriggered: boolean = false;
         let triggerOffset: number = 0;
 
-        // Bardzo ważna funkcja, to ona zajmuje się całym procesem, weryfikuje i wykonuje kod.
         const runCheck = () => {
             const currentScroll = getScrollValue(object.element, object.axis);
             const scrollSize = getScrollSize(object.element, object.axis);
@@ -119,7 +189,7 @@ function scrolled(input: ScrolledObject | ScrolledObject[]): void {
             if (typeof object.trigger === "number") 
                 triggerOffset = object.trigger <= 1 ? scrollSize * object.trigger : object.trigger;
             else
-                // TODO: Problem z działaniem
+                // TODO: fixme
                 triggerOffset = getAbsoluteOffset(object.trigger, object.axis);
 
             const isTriggered =
