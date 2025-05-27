@@ -3,17 +3,15 @@
   "author": "Bartłomiej 'Machina' Walczak <contact@mhna.pl>",
   "main": "./lib/mvxi.js",
   "types": "./lib/mvxi.d.ts",
-  "dependencies": {
-    "@types/node": "^22.15.21"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx rollup -c",
     "debug": "npx rollup -c -w"
   },
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A modern HTML and Javascript Framework.",
   "devDependencies": {
+    "@types/node": "^22.15.21",
     "rollup": "^4.41.1",
     "rollup-plugin-obfuscator": "^1.1.0",
     "rollup-plugin-typescript2": "^0.36.0",

@@ -4,9 +4,10 @@ import obfuscator from 'rollup-plugin-obfuscator';
 export default {
   input: './lib/mvxi.ts',
   output: {
-    file: './dist/mvxi.js',
-    format: 'umd',
-    name: 'MVXI',
+    file: "./dist/mvxi.js",
+    format: "esm", // from `umd`
+    name: "MVXI",
+    exports: "named",
     sourcemap: false
   },
   plugins: [

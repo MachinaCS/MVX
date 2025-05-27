@@ -227,8 +227,6 @@ function scrolled(input: ScrolledObject | ScrolledObject[]): void {
     };
 };
 
-const exports = {
-    scrolled: scrolled,
-}
-
-export default exports;
+export default {
+  scrolled,
+};
